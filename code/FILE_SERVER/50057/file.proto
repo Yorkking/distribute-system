@@ -1,0 +1,32 @@
+
+syntax = "proto3";
+
+package File;
+
+service File{
+    //创建一个文件
+    rpc create (file) returns (Bool) {}
+
+    //删除一个文件 
+    rpc delete (file) returns (Bool) {}
+
+    //上传一个文件,判断是否OK
+    rpc upload (FileInfo) returns (Bool) {}
+
+    //读或下载一个文件
+    rpc download (file) returns (FileInfo) {}
+
+}
+
+message file{
+    string filename=1;
+}
+
+message Bool{
+    bool isOK = 1;
+}
+
+message FileInfo{
+    string filename=1;
+    string context=2;
+}

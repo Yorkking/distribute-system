@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package Directory;
+
+service Directory{
+    //获取文件的IP,port的列表
+    rpc get_file_address (File) returns (FileInfo) {}
+
+    //添加文件所在的路径
+    rpc add_file_address (AddFileInfo) returns (Bool) {}
+    
+    //删除文件所在的路径
+    rpc del_file_address (FileSimpleInfo) returns (Bool) {}
+
+    //获取存取该文件的所有 file服务器的信息
+    rpc get_file_all_address(File) returns (stream FileInfo) {}
+
+    //获取所有的文件信息
+    rpc get_all_file (File) returns (stream FileInfo) {}
+
+    //获取所有的文件服务器的ip，port
+    rpc get_all_server (File) returns (stream ClientIP) {}
+}
+
+message File{
+    string filename=1;
+}
+
+message ClientIP{
+    string IP=1;
+    string port=2;
+}
+message FileInfo{
+    string file=1;
+    ClientIP client_ip=2;
+    float timestamp=3;
+    string hostID=4;
+}
+message Bool{
+    bool isOK = 1;
+}
+message FileSimpleInfo{
+    string filename=1;
+    float timestamp=2;
+}
+message AddFileInfo{
+    string filename=1;
+    string ip=2;
+    string port=3;
+    float timestamp=4;
+}
+
+

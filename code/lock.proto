@@ -1,0 +1,49 @@
+
+syntax = "proto3";
+
+package Lock;
+
+service Lock{
+
+    //判断文件是否加锁
+    //文件的名字，返回一个锁类型：0无锁，1共享锁，2互斥锁
+    rpc lock_exist_test(Str) returns (TypeLock) {}
+
+    //获得加锁的文件的客户端信息
+    //args: filename
+    //returns: clientInfo: IP:string,port:string
+    rpc get_lock_client(Str) returns (stream ClientAllInfo) {}
+
+    //给文件加锁
+    //args: filename:string, clientInfo:IP,port
+    //
+    rpc lock_file(ClientInfo) returns (TypeLock) {}
+    //给文件释放锁
+    rpc unlock_file(ClientInfo) returns (TypeLock) {}
+
+}
+
+message Str{
+    string filename=1;
+}
+message TypeLock{
+    int32 typelock = 1;
+}
+message ClientIP{
+    string IP=1;
+    string port=2;
+}
+
+message ClientInfo{
+    //ClientIP clientAddr = 1;
+    string filename = 1;
+    int32 typelock = 2;
+}
+
+message ClientAllInfo{
+    string filename = 1;
+    string IP = 2;
+    string port = 3;
+    int32 typelock = 4;
+}
+
